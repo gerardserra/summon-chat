@@ -1,7 +1,15 @@
 
+function toggleInitialMessage() {
+    const initialMessage = document.querySelector('.initial-message');
+    if (initialMessage) {
+      initialMessage.style.display = 'none'; // Hide the initial message if it exists
+    }
+  }
+
 function createNewChat() {
     var chatBody = document.getElementById('chatBody');
     chatBody.innerHTML = ''; // Clear all messages
+    createEmptyMessage();
 }
 // Function to simulate sending a message to an endpoint and receiving a response
 function sendMessageToServer(message) {
@@ -36,11 +44,22 @@ function scrollToBottomWithSpacing() {
   chatBody.scrollTop = chatBody.scrollHeight + 0; // Subtract N pixels for spacing
 }
 
+function createEmptyMessage(){
+// Add a placeholder message for initial chat state
+var initialMessageDiv = document.createElement('div');
+initialMessageDiv.classList.add('initial-message');
+initialMessageDiv.innerHTML = `
+  Hey, how can I help you today?
+`;
+chatBody.appendChild(initialMessageDiv);
+}
+
+
 // Event listener for the chat input
 document.addEventListener("DOMContentLoaded", function () {
   var input = document.getElementById("chatInput");
   var chatBody = document.getElementById("chatBody");
-
+  createEmptyMessage();
   input.addEventListener("keypress", function (event) {
     if (event.key === "Enter") {
       var message = input.value.trim();

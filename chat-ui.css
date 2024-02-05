@@ -13,6 +13,25 @@ html {
   align-items: flex-start;
 }
 
+/* Initial Message */
+.initial-message {
+  border-radius: 16px;
+  background: rgba(16, 16, 19, 0.10); /* Grayish color for initial message */
+  color: #000; /* Text color for initial message */
+  text-align: left; /* Align initial message to the left */
+  max-width: 80%; /* Set max width to 80% of the container */
+  padding: 10px; /* Add some padding for better readability */
+  margin: 10px 0; /* Add margin for spacing between messages */
+  display: flex;
+  flex-direction: column; /* Stack content vertically */
+  align-self: flex-start; /* Align the entire container to the left */
+}
+
+/* Bot Icon */
+.bot-icon {
+  margin-right: 10px; /* Add margin to the icon for spacing */
+}
+
 .chat-header {
   display: flex;
   width: calc(100% - 40px);
