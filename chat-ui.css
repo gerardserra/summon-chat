@@ -36,14 +36,7 @@ html {
   color: rgba(0, 0, 0, 0.4);
 }
 
-.chat-body {
-  padding: 120px 20px 20px 20px;
-  height: calc(100% - 70px);
-  width: calc(100% - 40px);
-  overflow-y: auto;
 
-  border-radius: 18px;
-}
 
 .chat-footer {
   position: fixed;
@@ -87,20 +80,57 @@ html {
     0 0 8px rgba(102, 175, 233, 0.6);
 }
 
+.chat-body {
+  padding: 100px 20px 20px 20px;
+  height: 100%;
+  width: calc(100% - 40px);
+  margin-bottom: 60px;
+  overflow-y: auto;
+  border-radius: 18px;
+  display: flex;
+  flex-direction: column; /* Stack messages vertically */
+  align-items: flex-end; 
+  
+}
+
 .chat-message {
   margin-bottom: 15px;
-  padding: 10px;
+  padding: 16px;
   background-color: #e7e7e7;
   border-radius: 4px;
-  max-width: 80%;
+  max-width: 70%;
+  margin: 10px 0; /* Add margin for spacing between messages */
+  position: relative; /* Required for time indicator positioning */
+  font-size: 14px;
+  border-radius: 16px;
+  display: flex;
+  flex-direction: column; /* Stack content vertically */
 }
 
+/* User Input */
 .user-message {
-  border-radius: 16px;
-  background: var(rgba(44, 145, 237, 1), #2c91ed);
+  background: #2C91ED; /* Blue color for user input */
+  color: #fff; /* Text color for user input */
+  text-align: right; /* Align user messages to the right */
+  align-self: flex-end;
+ }
+
+/* Chat Responses */
+.server-message {
+  background: rgba(16, 16, 19, 0.10); /* Grayish color for chat responses */
+  color: #000; /* Text color for chat responses */
+  text-align: left; /* Align server messages to the left */
+  align-self: flex-start;
 }
 
-.chat-message {
-  border-radius: 16px;
-  background: var(rgba(44, 145, 237, 1), #2c91ed);
+/* Time Indicator */
+.time-indicator {
+  font-size: 12px; /* Adjust the font size as needed */
+  align-self: flex-end; /* Align time indicator to the right for user messages */
+  margin-top: 4px; /* Add 8 pixels of top margin to create space between time indicator and message */
 }
+
+/* Align time indicator to the left for server messages */
+.server-message .time-indicator {
+  align-self: flex-start;
+ }
