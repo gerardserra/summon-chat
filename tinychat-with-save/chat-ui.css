@@ -41,7 +41,7 @@ html {
   border-bottom: 1px solid rgba(0, 0, 0, 0.1);
 }
 
-.icon-header{
+.new-chat-button {
   border: none;
   background-color: transparent;
   cursor: pointer;
@@ -50,29 +50,11 @@ html {
   justify-content: center; /* Center the icon horizontally */
 }
 
-.icon-header .material-icons {
+.new-chat-button .material-icons {
   font-size: 20px; /* Set the icon size */
   color: rgba(0, 0, 0, 0.4);
 }
 
-/* Title Container (Left) */
-.title-container {
-  flex: 1; /* Occupy remaining space on the left */
-  font-weight: bold;
-}
-
-/* Buttons Container (Right) */
-.buttons-container {
-  display: flex;
-}
-
-
-.chat-header {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  padding: 16px 20px;
-}
 
 
 .chat-footer {
@@ -171,21 +153,3 @@ html {
 .server-message .time-indicator {
   align-self: flex-start;
  }
-
-
-
-
-
- /* History Dropdown Container */
-.history-dropdown-container {
-  position: relative;
-  display: inline-block;
-}
-
-/* Chat Dropdown Container */
-.chat-dropdown-container {
-  position: absolute;
-  top: 100%;
-  left: 0;
-  display: none;
-}

@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Tiny Chat</title>
+    <link rel="stylesheet" href="chat-ui.css">
+    <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+
+  </head>
+  <body>
+    <div class="chat-container">
+        <div class="chat-header">
+            Tiny Chat
+            <button class="new-chat-button" onclick="createNewChat()">
+                <span class="material-icons">add</span>
+            </button>
+        </div>
+      <div class="chat-body" id="chatBody">
+        <!-- Messages will appear here -->
+      </div>
+      <div class="chat-footer">
+        <input
+          type="text"
+          class="input-message"
+          id="chatInput"
+          placeholder="Ask AI and press Enter"
+        />
+      </div>
+    </div>
+
+    
+<script src="chat-behavior.js"></script> 
+  </body>
+</html>
