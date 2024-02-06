@@ -11,6 +11,7 @@ function createNewChat() {
     chatBody.innerHTML = ''; // Clear all messages
     createEmptyMessage();
 }
+
 // Function to simulate sending a message to an endpoint and receiving a response
 function sendMessageToServer(message) {
   return new Promise((resolve) => {
@@ -55,6 +56,62 @@ chatBody.appendChild(initialMessageDiv);
 }
 
 
+
+
+//CHAT LOADER
+function loadChatHistory() {
+  // Make an API call to retrieve a list of chat IDs
+  fetch('your_endpoint_url_here')
+    .then((response) => response.json())
+    .then((data) => {
+      // Get the dropdown element
+      const chatDropdown = document.getElementById('chatDropdown');
+
+      // Clear existing options
+      chatDropdown.innerHTML = '<option value="" disabled selected>Select a Chat</option>';
+
+      // Populate the dropdown with chat IDs
+      data.forEach((chat) => {
+        const option = document.createElement('option');
+        option.value = chat.id; // Assuming 'id' is the property in your chat data
+        option.textContent = chat.id; // Display the chat ID
+        chatDropdown.appendChild(option);
+      });
+    })
+    .catch((error) => {
+      console.error('Error loading chat history:', error);
+    });
+}
+
+
+// Function to toggle the chat dropdown
+function toggleChatHistory() {
+  const chatDropdownContainer = document.getElementById('chatDropdownContainer');
+  if (chatDropdownContainer.style.display === 'none' || chatDropdownContainer.style.display === '') {
+    chatDropdownContainer.style.display = 'block';
+  } else {
+    chatDropdownContainer.style.display = 'none';
+  }
+}
+
+function loadSelectedChat() {
+  const chatDropdown = document.getElementById('chatDropdown');
+  const selectedChatId = chatDropdown.value;
+
+  // Check if a chat ID is selected
+  if (selectedChatId) {
+    // Make an API call to load the selected chat based on the 'selectedChatId'
+    // Update your chat loading logic here
+    console.log("chat whatever")
+  }
+}
+
+
+
+
+
+
+//CHAT INPUT
 // Event listener for the chat input
 document.addEventListener("DOMContentLoaded", function () {
   var input = document.getElementById("chatInput");
@@ -114,3 +171,7 @@ document.addEventListener("DOMContentLoaded", function () {
     }
   });
 });
+
+
+
+document.getElementById('chatDropdown').addEventListener('change', loadSelectedChat);
