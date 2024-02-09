@@ -20,16 +20,6 @@ function updateTimeIndicator(messageDiv) {
   }
 }
 
-function createEmptyMessage() {
-  // Add a placeholder message for initial chat state
-  var initialMessageDiv = document.createElement("div");
-  initialMessageDiv.classList.add("initial-message");
-  initialMessageDiv.innerHTML = `
-  Hey, how can I help you today?
-`;
-  chatBody.appendChild(initialMessageDiv);
-}
-
 // Function to scroll to the bottom of the chat with spacing
 function scrollToBottomWithSpacing() {
   const chatBody = document.getElementById("chatBody");
@@ -58,28 +48,35 @@ function createNewChat() {
   sendMessageToServer("Hi!");
 }
 
-function createPlaceholder() {
+function createMessageDiv(message, placeholderDiv) {
   // Create a new div for the server message and append it to chatBody
-  var serverMessageDiv = document.createElement("div");
-  serverMessageDiv.classList.add("chat-message", "server-message");
-  chatBody.appendChild(serverMessageDiv);
 
-  // Add response content
+  if (placeholderDiv == undefined) {
+    var placeholderDiv = document.createElement("div");
+    placeholderDiv.classList.add("chat-message", "server-message");
+    chatBody.appendChild(placeholderDiv);
+  } else {
+    placeholderDiv.innerHTML = "";
+  }
+
   var serverMessageContent = document.createElement("div");
-  serverMessageContent.textContent = "Preparing chat...";
+  serverMessageContent.textContent = message;
+  placeholderDiv.appendChild(serverMessageContent);
 
-  serverMessageDiv.appendChild(serverMessageContent);
-
-
-  // Simulate sending the message and getting a response
-  return serverMessageDiv;
+  var serverTimeIndicator = document.createElement("div");
+  serverTimeIndicator.classList.add("time-indicator", "left"); // Align left for server messages
+  serverTimeIndicator.textContent = getTime();
+  placeholderDiv.appendChild(serverTimeIndicator);
+  scrollToBottomWithSpacing();
+  return placeholderDiv;
 }
+
 async function sendMessageToServer(messageText, threadID) {
   // Endpoint URL
   const url = "https://dkta9n.buildship.run/tinychat";
   console.log("Sending....");
 
-  var responsePlaceholder = createPlaceholder("");
+  var responsePlaceholder = createMessageDiv("Preparing chat");
 
   // Prepare the request body
   const data = {
@@ -101,12 +98,7 @@ async function sendMessageToServer(messageText, threadID) {
     console.log(responseData);
     // Use the returned message
     if (responseData && responseData.message) {
-      responsePlaceholder.textContent = responseData.message;
-      var serverTimeIndicator = document.createElement("div");
-      serverTimeIndicator.classList.add("time-indicator", "left"); // Align left for server messages
-      serverTimeIndicator.textContent = getTime();
-      responsePlaceholder.appendChild(serverTimeIndicator);
-      scrollToBottomWithSpacing();
+      createMessageDiv(responseData.message, responsePlaceholder);
       globalThreadID = responseData.threadID;
     } else {
       console.error("Message data is missing");
@@ -118,19 +110,88 @@ async function sendMessageToServer(messageText, threadID) {
   }
 }
 
+async function saveCurrentChat() {
+  // Endpoint URL where you want to send globalThreadID
+  const url = "https://dkta9n.buildship.run/saveChat";
+  var responsePlaceholder = createMessageDiv("Saving current chat...");
+  if (!globalThreadID) {
+    createMessageDiv("No thread ID is set yet.", responsePlaceholder);
+    console.error("No thread ID is set.");
+    return;
+  }
+  const data = { threadID: globalThreadID };
+  try {
+    const response = await fetch(url, {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify(data),
+    });
+
+    if (response.ok) {
+      const responseData = await response.json(); // or .text() if the response is plain text
+      console.log("Thread saved successfully:", responseData);
+      createMessageDiv("Chat saved.", responsePlaceholder);
+    } else {
+      // Handle server errors or invalid responses
+      console.error("Failed to save the thread. Status:", response.status);
+    }
+  } catch (error) {
+    // Handle network errors
+    console.error("Error saving the thread:", error);
+  }
+}
+
+async function getHistory() {
+  const url = "https://dkta9n.buildship.run/getHistory";
+  try {
+    const response = await fetch(url, {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+    });
+    if (response.ok) {
+      const data = await response.json();
+      console.log(data);
+      displayThreadIDs(data);
+    } else {
+      console.error(
+        "Failed to retrieve chat history. Status:",
+        response.status
+      );
+    }
+  } catch (error) {
+    console.error("Error retrieving chat history:", error);
+  }
+}
+
+function displayThreadIDs(threadIDs) {
+  const selector = document.getElementById('threadSelector');
+  selector.innerHTML = ''; // Clear existing options
+  threadIDs.forEach(id => {
+    const option = document.createElement('option');
+    option.value = id;
+    option.textContent = `Thread ID: ${id}`;
+    selector.appendChild(option);
+  });
+
+  // Show the modal
+  document.getElementById('historyModal').style.display = 'block';
+}
+
+
 function startChatOnPageLoad() {
   console.log("Starting Chat");
   sendMessageToServer("Hi!");
 }
 
 function appendMessageToChat(messageText) {
-  // Create a new chat message element
   var messageDiv = document.createElement("div");
   messageDiv.classList.add("chat-message");
   messageDiv.textContent = messageText; // Set the message text
-
   var chatBody = document.getElementById("chatBody");
-  // Append the message to the chat body
   chatBody.appendChild(messageDiv);
 }
 
@@ -153,12 +214,8 @@ document.addEventListener("DOMContentLoaded", function () {
         timeIndicator.classList.add("time-indicator");
         timeIndicator.textContent = getTime(); // Call a function to get the current time
         userMessageDiv.appendChild(timeIndicator); // Append the time indicator to the user message div
-
-        // Scroll to the new message
-
         // Clear the input
         input.value = "";
-
         sendMessageToServer(message, globalThreadID);
       }
     }
@@ -168,4 +225,4 @@ document.addEventListener("DOMContentLoaded", function () {
 //START THE CHAT
 
 let globalThreadID = undefined;
-startChatOnPageLoad();
+//startChatOnPageLoad();

@@ -66,7 +66,7 @@ function createPlaceholder() {
 
   // Add response content
   var serverMessageContent = document.createElement("div");
-  serverMessageContent.textContent = "Preparing chat...";
+  serverMessageContent.textContent = "Thinking...";
 
   serverMessageDiv.appendChild(serverMessageContent);
 
@@ -76,7 +76,7 @@ function createPlaceholder() {
 }
 async function sendMessageToServer(messageText, threadID) {
   // Endpoint URL
-  const url = "https://dkta9n.buildship.run/tinychat";
+  const url = "https://dkta9n.buildship.run/savetoDB";
   console.log("Sending....");
 
   var responsePlaceholder = createPlaceholder("");
@@ -99,9 +99,9 @@ async function sendMessageToServer(messageText, threadID) {
 
     const responseData = await response.json(); // Convert the response to JSON
     console.log(responseData);
-    // Use the returned message
-    if (responseData && responseData.message) {
-      responsePlaceholder.textContent = responseData.message;
+    // Use the returned response
+    if (responseData && responseData.response) {
+      responsePlaceholder.textContent = responseData.response;
       var serverTimeIndicator = document.createElement("div");
       serverTimeIndicator.classList.add("time-indicator", "left"); // Align left for server messages
       serverTimeIndicator.textContent = getTime();

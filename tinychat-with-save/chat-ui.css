@@ -41,7 +41,7 @@ html {
   border-bottom: 1px solid rgba(0, 0, 0, 0.1);
 }
 
-.new-chat-button {
+.icon-header{
   border: none;
   background-color: transparent;
   cursor: pointer;
@@ -50,9 +50,17 @@ html {
   justify-content: center; /* Center the icon horizontally */
 }
 
-.new-chat-button .material-icons {
+.icon-header .material-icons {
   font-size: 20px; /* Set the icon size */
   color: rgba(0, 0, 0, 0.4);
+}
+
+.title-container {
+  flex: 1; /* Occupy remaining space on the left */
+  font-weight: bold;
+}
+.buttons-container {
+  display: flex;
 }
 
 

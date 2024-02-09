@@ -11,10 +11,18 @@
   <body>
     <div class="chat-container">
         <div class="chat-header">
-            Tiny Chat
-            <button class="new-chat-button" onclick="createNewChat()">
-                <span class="material-icons">add</span>
+          <div class="title-container">Tiny Chat</div>
+          <div class="buttons-container">
+            <button class="icon-header" onclick="createNewChat()">
+              <span class="material-icons">add</span>
             </button>
+            <button class="icon-header" onclick="saveCurrentChat()">
+              <span class="material-icons">save</span>
+            </button>
+            <button class="icon-header" onclick="getHistory()">
+              <span class="material-icons">history</span>
+            </button>
+            </div>
         </div>
       <div class="chat-body" id="chatBody">
         <!-- Messages will appear here -->
