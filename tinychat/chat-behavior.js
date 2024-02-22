@@ -1,4 +1,5 @@
 //HELPERS
+
 function toggleInitialMessage() {
   const initialMessage = document.querySelector(".initial-message");
   if (initialMessage) {
@@ -76,8 +77,9 @@ function createPlaceholder() {
 }
 async function sendMessageToServer(messageText, threadID) {
   // Endpoint URL
-  const url = "https://dkta9n.buildship.run/savetoDB";
+  const url = "https://dkta9n.buildship.run/restaurant-manager";
   console.log("Sending....");
+  
 
   var responsePlaceholder = createPlaceholder("");
 
@@ -101,7 +103,8 @@ async function sendMessageToServer(messageText, threadID) {
     console.log(responseData);
     // Use the returned response
     if (responseData && responseData.response) {
-      responsePlaceholder.textContent = responseData.response;
+      const htmlContent = marked.parse(responseData.response);
+      responsePlaceholder.innerHTML = htmlContent;
       var serverTimeIndicator = document.createElement("div");
       serverTimeIndicator.classList.add("time-indicator", "left"); // Align left for server messages
       serverTimeIndicator.textContent = getTime();
@@ -169,3 +172,4 @@ document.addEventListener("DOMContentLoaded", function () {
 
 let globalThreadID = undefined;
 startChatOnPageLoad();
+
